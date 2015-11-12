@@ -4,58 +4,42 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.content.Intent;
 import android.widget.Button;
 import android.view.View;
+import android.content.Intent;
 
-public class Sound_andVideo extends AppCompatActivity {
-
-
-    private Button videoButton;
-    private Button soundButton;
+public class SoundActivity extends AppCompatActivity {
+    private Button soundHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sound_and_video);
+        setContentView(R.layout.activity_sound);
 
-        soundButton =(Button) findViewById(R.id.soundButton);
-        videoButton =(Button) findViewById(R.id.videoButton);
+        soundHome =(Button) findViewById(R.id.soundHome);
 
         setupListeners();
     }
+
     private void setupListeners()
     {
-        //sound screen
-        soundButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-        public void onClick(View currentView)
-            {
-                Intent myIntent = new Intent(currentView.getContext(), SoundActivity.class);
-                startActivityForResult(myIntent, 0);
-            }
-
-
-        });
-
-        //videoScreen
-        videoButton.setOnClickListener(new View.OnClickListener()
+        soundHome.setOnClickListener(new View.OnClickListener()
         {
            @Override
         public void onClick(View currentView)
            {
-               Intent vIntent = new Intent(currentView.getContext(), VideoActivity.class);
-               startActivityForResult(vIntent, 0);
+               Intent returnIntent = new Intent();
+               setResult(RESULT_OK, returnIntent);
+               finish();
            }
+
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sound_and_video, menu);
+        getMenuInflater().inflate(R.menu.menu_sound, menu);
         return true;
     }
 
