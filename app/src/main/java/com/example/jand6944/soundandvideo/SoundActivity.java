@@ -4,12 +4,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.widget.*;
 import android.view.View;
 import android.content.Intent;
+import android.media.MediaPlayer;
+
 
 public class SoundActivity extends AppCompatActivity {
     private Button soundHome;
+    private Button playButton;
+    private Button pauseButton;
+    private Button stopButton;
+    private SeekBar soundSeekBar;
+    private Thread soundThread;
+    private MediaPlayer soundPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +25,17 @@ public class SoundActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sound);
 
         soundHome =(Button) findViewById(R.id.soundHome);
+        playButton = (Button) findViewById(R.id.playButton);
+        pauseButton =(Button) findViewById(R.id.pauseButton);
+        stopButton =(Button) findViewById(R.id.stopButton);
+        soundSeekBar =(SeekBar) findViewById(R.id.soundSeekBar);
+        soundPlayer = MediaPlayer.create(this.getBaseContext(),R.raw.eraser);
+
 
         setupListeners();
+
+        soundThread = new Thread(this);
+        soundThread.start();
     }
 
     private void setupListeners()
@@ -34,7 +51,88 @@ public class SoundActivity extends AppCompatActivity {
            }
 
         });
+
+        playButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+        public void onClick(View v)
+            {
+                soundPlayer.start();
+            }
+        });
+
+        pauseButton.setOnClickListener(new View.OnClickListener()
+        {
+           @Override
+        public void onClick(View v)
+           {
+               soundPlayer.pause();
+           }
+
+        });
+
+        stopButton.setOnClickListener(new View.OnClickListener()
+        {
+                                 @Override
+        public void onClick(View currentView)
+                                 {
+                                     soundPlayer.stop();
+                                     soundPlayer = MediaPlayer.create(getBaseContext(),R.raw.eraser);
+                                 }
+
+                                      });
+
+        soundSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStartTackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onProgressChanel(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    soundPlayer.seekTo(progress);
+                }
+            }
+
+
+        });
+
+
+
     }
+@Override
+public void run()
+{
+    int currentPostition =0;
+    int soundTotal = soundPlayer.getDuration();
+    soundSeekBar.setMax(soundTotal);
+
+    while(soundPlayer !=null && currentPostition < soundTotal)
+    {
+        try
+        {
+            Thread.sleep(300);
+            currentPostition = soundPlayer.getCurrentPosition();
+        }
+        catch(InterruptedException soundException)
+        {
+            return;
+        }
+        catch (Exception otherException)
+        {
+            return;
+        }
+        soundSeekBar.setProgress(currentPostition);
+    }
+
+
+}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -7,12 +7,18 @@ import android.view.MenuItem;
 import android.content.Intent;
 import android.widget.Button;
 import android.view.View;
+import android.widget.TextView;
+
+
 
 public class Sound_andVideo extends AppCompatActivity {
 
 
     private Button videoButton;
     private Button soundButton;
+    private TextView quoteText;
+    private Button quoteButton;
+    private int quoteNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +27,8 @@ public class Sound_andVideo extends AppCompatActivity {
 
         soundButton =(Button) findViewById(R.id.soundButton);
         videoButton =(Button) findViewById(R.id.videoButton);
+        quoteButton =(Button) findViewById(R.id.quoteButton);
+        quoteText = (TextView) findViewById(R.id.quoteText);
 
         setupListeners();
     }
@@ -48,6 +56,41 @@ public class Sound_andVideo extends AppCompatActivity {
                Intent vIntent = new Intent(currentView.getContext(), VideoActivity.class);
                startActivityForResult(vIntent, 0);
            }
+        });
+
+        //quote generator
+        quoteButton.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View  currentView)
+            {
+                int quoteNumber =(int) (Math.random()*5);
+
+                if(quoteNumber == 0)
+                {
+                    quoteText.setText("all day breakfast menu the wait it over-McDonalds");
+                }
+                if(quoteNumber ==1)
+                {
+                  quoteText.setText("The depressing thing about tennis is that no matter how good I get, I'll never be as good as a wall-Mitch Hedberg");
+                }
+                if(quoteNumber == 2)
+                {
+                    quoteText.setText("Work hard. Dream big.-unknown");
+                }
+                if(quoteNumber == 3)
+                {
+                    quoteText.setText("No-carl");
+                }
+                if(quoteNumber == 4)
+                {
+                    quoteText.setText("Get in the house carl- Rick");
+                }
+                else
+                {
+                    quoteText.setText("memes");
+                }
+            }
+
         });
     }
 

@@ -4,13 +4,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.content.Intent;
 
 public class VideoActivity extends AppCompatActivity {
+private Button videoHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video);
+
+        videoHome =(Button) findViewById(R.id.videoHome);
+
+        setupListeners();
     }
 
     @Override
@@ -34,4 +42,19 @@ public class VideoActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    private void setupListeners()
+    {
+        videoHome.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View currentView)
+            {
+                Intent returnIntent = new Intent();
+                setResult(RESULT_OK, returnIntent);
+                finish();
+            }
+
+        });
+    }
+
 }
