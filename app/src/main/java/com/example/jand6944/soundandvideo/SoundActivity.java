@@ -10,7 +10,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 
 
-public class SoundActivity extends AppCompatActivity {
+public class SoundActivity extends AppCompatActivity implements Runnable {
     private Button soundHome;
     private Button playButton;
     private Button pauseButton;
@@ -45,6 +45,9 @@ public class SoundActivity extends AppCompatActivity {
            @Override
         public void onClick(View currentView)
            {
+               soundPlayer.stop();
+               soundPlayer = MediaPlayer.create(getBaseContext(),R.raw.eraser);
+
                Intent returnIntent = new Intent();
                setResult(RESULT_OK, returnIntent);
                finish();
@@ -52,22 +55,18 @@ public class SoundActivity extends AppCompatActivity {
 
         });
 
-        playButton.setOnClickListener(new View.OnClickListener()
-        {
+        playButton.setOnClickListener(new View.OnClickListener() {
             @Override
-        public void onClick(View v)
-            {
+            public void onClick(View v) {
                 soundPlayer.start();
             }
         });
 
-        pauseButton.setOnClickListener(new View.OnClickListener()
-        {
-           @Override
-        public void onClick(View v)
-           {
-               soundPlayer.pause();
-           }
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                soundPlayer.pause();
+            }
 
         });
 
@@ -89,12 +88,12 @@ public class SoundActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onStartTackingTouch(SeekBar seekBar) {
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
 
             @Override
-            public void onProgressChanel(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     soundPlayer.seekTo(progress);
                 }
